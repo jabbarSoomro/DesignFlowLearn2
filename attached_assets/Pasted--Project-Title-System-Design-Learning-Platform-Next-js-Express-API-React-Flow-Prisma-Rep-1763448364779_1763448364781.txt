@@ -1,0 +1,420 @@
+🧠 Project Title
+
+System Design Learning Platform (Next.js + Express API + React Flow + Prisma + Replit PostgreSQL)
+
+💡 Build the following production-ready full-stack application on Replit:
+
+A LeetCode-style System Design learning platform with visual system design diagrams using React Flow, XP system, badges, submissions, comments, and admin tools.
+
+Use ONLY these technologies supported by Replit:
+
+🧱 Tech Stack Requirements
+Frontend
+
+Next.js (App Router)
+
+React Flow
+
+Tailwind CSS
+
+shadcn/ui
+
+Zustand state management
+
+SWR or React Query for data fetching
+
+MDX for problem explanations
+
+Backend
+
+Node.js
+
+Express.js REST API
+
+Prisma ORM
+
+PostgreSQL (Replit PostgreSQL)
+
+JSON Web Tokens (JWT)
+
+Bcrypt for password hashing
+
+Zod for validation
+
+Real-time / Extra
+
+Socket.IO for collaboration & live chat
+
+Replit Secrets for all environment variables
+
+🧑‍💻 Core Modules & Pages
+1. Authentication (JWT)
+
+Auth endpoints:
+
+POST /api/auth/register
+
+POST /api/auth/login
+
+GET /api/auth/me
+
+User fields:
+
+id
+
+name
+
+email
+
+password_hash
+
+xp
+
+badges[]
+
+role (admin/instructor/learner)
+
+Middleware:
+
+authenticateUser()
+
+requireAdmin()
+
+2. System Design Problem Library
+
+Pages:
+
+/problems
+
+/problems/[slug]
+
+Problem fields:
+
+id
+
+title
+
+slug
+
+difficulty
+
+tags[]
+
+description_mdx
+
+constraints
+
+hints
+
+required_components[]
+
+Features:
+
+Search
+
+Filter by tags & difficulty
+
+MDX support
+
+Built-in example diagrams (React Flow JSON)
+
+3. React Flow System Design Editor
+
+Full editor with:
+
+8+ custom components:
+
+Load Balancer
+
+Cache
+
+Database
+
+CDN
+
+Queue
+
+Blob Storage
+
+API Gateway
+
+Microservice
+
+Draggable nodes
+
+Custom config sidebar
+
+Zoom, pan, minimap
+
+Undo/redo
+
+Export JSON
+
+Import JSON
+
+Submit Design button
+
+4. Submission System
+
+Users submit:
+
+diagram_json
+
+explanation text
+
+problem_id
+
+score (auto-calculated)
+
+Endpoints:
+
+POST /api/submissions
+
+GET /api/submissions/:problemId
+
+Scoring logic:
+
+score = (used_required_components / total_required) * 100
+
+
+XP Award:
+
++20 XP for correct
+
++5 XP bonus for good explanation
+
+5. Gamification
+
+Badges:
+
+"Cache Master"
+
+"Load Balancer Guru"
+
+"Scalability Ninja"
+
+"Queue Architect"
+
+Table: Badge, UserBadge
+
+Award badges automatically:
+
+Based on XP thresholds
+
+Based on solved problems
+
+Leaderboard API:
+
+GET /api/leaderboard
+
+6. Comments & Discussions
+
+Threaded comments with:
+
+parent_id
+
+content
+
+upvotes
+
+user
+
+problem_id
+
+Endpoints:
+
+POST /api/comments
+
+GET /api/comments/:problemId
+
+7. Admin Dashboard
+
+Protected routes: /admin/*
+
+Admin features:
+
+CRUD problems
+
+Manage tags
+
+Approve submissions
+
+Edit XP & badges
+
+View analytics:
+
+Solve counts
+
+Avg score
+
+Most popular problems
+
+Pages built using shadcn/ui tables, forms, and modals.
+
+8. Real-Time Collaboration (Optional)
+
+Use Socket.IO for:
+
+Multi-user editing of the same diagram
+
+Live cursors
+
+Chat sidebar
+
+Auto-sync diagram updates
+
+Express WebSocket server required.
+
+🛠️ Backend Requirements
+Express API Structure:
+/api/auth
+/api/problems
+/api/submissions
+/api/comments
+/api/leaderboard
+/api/badges
+/api/admin
+
+Include:
+
+Full CRUD
+
+Zod input validation
+
+Error handling middleware
+
+JWT authentication middleware
+
+Role-based admin protection
+
+Pagination
+
+💾 Prisma Schema (Replit PostgreSQL)
+
+Tables:
+
+User
+
+Problem
+
+Tag
+
+ProblemTag
+
+Submission
+
+Comment
+
+Badge
+
+UserBadge
+
+Notification
+
+XPLog
+
+Each with relations, timestamps, indexes.
+
+🔒 Security Requirements
+
+Password hashing using bcrypt
+
+JWT access tokens (1 day)
+
+Refresh tokens (optional)
+
+Prevent XSS & injection
+
+Validate all inputs with Zod
+
+Limit file uploads (if any)
+
+🚀 Deployment Requirements
+
+Replit agent must generate:
+
+Complete file structure:
+/app (Next.js App Router frontend)
+/api (Express backend via Node)
+/prisma/schema.prisma
+.env (Replit Secrets)
+/components (shadcn)
+/lib
+
+Include:
+
+Build scripts for both apps
+
+Replit "Run" command
+
+Proxy config (Next.js → Express)
+
+Database connection code
+
+📦 Deliverables Expected from Replit Agent
+Generate ALL of the following:
+1. Fully working Next.js frontend
+
+React Flow editor
+
+Problem pages
+
+Submit pages
+
+Leaderboard
+
+Profile page
+
+Authentication UI
+
+Admin dashboard
+
+MDX support
+
+Tailwind + shadcn
+
+2. Fully working Express.js backend
+
+All API routes
+
+Every endpoint implemented
+
+Zod validation
+
+Prisma models & migrations
+
+Scoring logic
+
+XP awarding logic
+
+Badge awarding logic
+
+Socket.IO server
+
+3. Full database schema
+
+Prisma schema
+
+Migration SQL
+
+Seed script (sample problems)
+
+4. Complete authentication system
+
+Registration
+
+Login
+
+JWT handling
+
+Middleware
+
+Role-based routes
+
+5. Real-time collaboration server
+
+Socket.IO
+
+Room-based synchronization
+
+Chat
