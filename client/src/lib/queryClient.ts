@@ -7,20 +7,38 @@ async function throwIfResNotOk(res: Response) {
   }
 }
 
+function getAuthHeaders(): HeadersInit {
+  const authStore = localStorage.getItem('auth-storage');
+  if (authStore) {
+    const { state } = JSON.parse(authStore);
+    if (state?.token) {
+      return {
+        'Authorization': `Bearer ${state.token}`,
+      };
+    }
+  }
+  return {};
+}
+
 export async function apiRequest(
   method: string,
   url: string,
   data?: unknown | undefined,
-): Promise<Response> {
+): Promise<any> {
+  const headers: HeadersInit = {
+    ...getAuthHeaders(),
+    ...(data ? { "Content-Type": "application/json" } : {}),
+  };
+
   const res = await fetch(url, {
     method,
-    headers: data ? { "Content-Type": "application/json" } : {},
+    headers,
     body: data ? JSON.stringify(data) : undefined,
     credentials: "include",
   });
 
   await throwIfResNotOk(res);
-  return res;
+  return await res.json();
 }
 
 type UnauthorizedBehavior = "returnNull" | "throw";
@@ -30,6 +48,7 @@ export const getQueryFn: <T>(options: {
   ({ on401: unauthorizedBehavior }) =>
   async ({ queryKey }) => {
     const res = await fetch(queryKey.join("/") as string, {
+      headers: getAuthHeaders(),
       credentials: "include",
     });
 
