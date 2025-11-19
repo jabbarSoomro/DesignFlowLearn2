@@ -180,6 +180,10 @@ export default function AdminProblems() {
 }
 
 function ProblemForm({ onSubmit, isLoading }: { onSubmit: (data: any) => void; isLoading: boolean }) {
+  const { data: tags } = useQuery<any[]>({
+    queryKey: ['/api/tags'],
+  });
+
   const [formData, setFormData] = useState({
     title: '',
     slug: '',
@@ -187,6 +191,8 @@ function ProblemForm({ onSubmit, isLoading }: { onSubmit: (data: any) => void; i
     descriptionMdx: '',
     constraints: '',
     requiredComponents: '',
+    hints: [''],
+    tags: [] as string[],
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -194,7 +200,32 @@ function ProblemForm({ onSubmit, isLoading }: { onSubmit: (data: any) => void; i
     onSubmit({
       ...formData,
       requiredComponents: formData.requiredComponents.split(',').map((c) => c.trim()).filter(Boolean),
+      hints: formData.hints.filter(h => h.trim()),
     });
+  };
+
+  const addHint = () => {
+    setFormData({ ...formData, hints: [...formData.hints, ''] });
+  };
+
+  const updateHint = (index: number, value: string) => {
+    const newHints = [...formData.hints];
+    newHints[index] = value;
+    setFormData({ ...formData, hints: newHints });
+  };
+
+  const removeHint = (index: number) => {
+    const newHints = formData.hints.filter((_, i) => i !== index);
+    setFormData({ ...formData, hints: newHints });
+  };
+
+  const toggleTag = (tagId: string) => {
+    setFormData(prev => ({
+      ...prev,
+      tags: prev.tags.includes(tagId)
+        ? prev.tags.filter(t => t !== tagId)
+        : [...prev.tags, tagId]
+    }));
   };
 
   return (
@@ -259,6 +290,50 @@ function ProblemForm({ onSubmit, isLoading }: { onSubmit: (data: any) => void; i
           onChange={(e) => setFormData({ ...formData, constraints: e.target.value })}
           data-testid="textarea-constraints"
         />
+      </div>
+
+      <div>
+        <Label>Hints</Label>
+        <div className="space-y-2">
+          {formData.hints.map((hint, index) => (
+            <div key={index} className="flex gap-2">
+              <Input
+                value={hint}
+                onChange={(e) => updateHint(index, e.target.value)}
+                placeholder={`Hint ${index + 1}`}
+              />
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                onClick={() => removeHint(index)}
+                disabled={formData.hints.length === 1}
+              >
+                <Trash2 className="h-4 w-4" />
+              </Button>
+            </div>
+          ))}
+          <Button type="button" variant="outline" size="sm" onClick={addHint}>
+            <Plus className="h-4 w-4 mr-2" />
+            Add Hint
+          </Button>
+        </div>
+      </div>
+
+      <div>
+        <Label>Tags</Label>
+        <div className="flex flex-wrap gap-2 mt-2">
+          {tags?.map((tag) => (
+            <Badge
+              key={tag.id}
+              variant={formData.tags.includes(tag.id) ? "default" : "outline"}
+              className="cursor-pointer"
+              onClick={() => toggleTag(tag.id)}
+            >
+              {tag.name}
+            </Badge>
+          ))}
+        </div>
       </div>
 
       <div>
