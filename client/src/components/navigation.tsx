@@ -1,7 +1,7 @@
 import { Link, useLocation } from 'wouter';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { 
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -38,11 +38,10 @@ export function Navigation() {
           <div className="flex items-center gap-8">
             <Link href="/" data-testid="link-home">
               <div className="flex items-center gap-2 hover-elevate active-elevate-2 rounded-md px-3 py-2 -ml-3">
-                <Code2 className="h-6 w-6 text-primary" />
-                <span className="text-lg font-semibold">System Design Academy</span>
+                <img src="/logo.png" alt="System Design Academy" className="h-10" />
               </div>
             </Link>
-            
+
             {user && (
               <nav className="hidden md:flex items-center gap-2">
                 {navItems.map((item) => (

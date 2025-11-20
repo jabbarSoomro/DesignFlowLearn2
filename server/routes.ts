@@ -54,19 +54,24 @@ function requireAdmin(req: AuthRequest, res: Response, next: NextFunction) {
 }
 
 // Scoring logic
-function calculateScore(diagramJson: any, requiredComponents: string[]): number {
+function calculateScore(diagramJson: any, requiredComponents: string[]): { score: number; missing: string[] } {
   const nodes = diagramJson?.nodes || [];
   const nodeTypes = new Set(nodes.map((node: any) => {
     const id = node.id || '';
     return id.split('-')[0];
   }));
 
-  const usedRequired = requiredComponents.filter(component => 
-    nodeTypes.has(component.toLowerCase().replace(/\s+/g, ''))
-  );
+  const missing: string[] = [];
+  const usedRequired = requiredComponents.filter(component => {
+    const isUsed = nodeTypes.has(component.toLowerCase().replace(/\s+/g, ''));
+    if (!isUsed) {
+      missing.push(component);
+    }
+    return isUsed;
+  });
 
   const score = Math.round((usedRequired.length / requiredComponents.length) * 100);
-  return Math.max(0, Math.min(100, score));
+  return { score: Math.max(0, Math.min(100, score)), missing };
 }
 
 // Badge awarding logic
@@ -237,7 +242,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       // Calculate score
-      const score = calculateScore(data.diagramJson, problem.requiredComponents || []);
+      const { score, missing } = calculateScore(data.diagramJson, problem.requiredComponents || []);
 
       // Create submission
       const submission = await storage.createSubmission({
@@ -265,7 +270,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         await checkAndAwardBadges(req.user!.id, data.diagramJson);
       }
 
-      res.json({ ...submission, xpAwarded });
+      res.json({ ...submission, xpAwarded, missingComponents: missing });
     } catch (error) {
       if (error instanceof z.ZodError) {
         return res.status(400).json({ message: error.errors[0].message });
