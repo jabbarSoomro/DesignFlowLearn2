@@ -56,9 +56,8 @@ export default function Register() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-background p-4">
       <div className="w-full max-w-md">
-        <div className="flex items-center justify-center gap-2 mb-8">
-          <Code2 className="h-8 w-8 text-primary" />
-          <h1 className="text-2xl font-bold">System Design Academy</h1>
+        <div className="flex items-center justify-center gap-2 mb-5">
+          <img src="/logo.png" alt="System Design Academy" className="h-20" />
         </div>
 
         <Card>

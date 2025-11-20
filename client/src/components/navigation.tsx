@@ -38,7 +38,7 @@ export function Navigation() {
           <div className="flex items-center gap-8">
             <Link href="/" data-testid="link-home">
               <div className="flex items-center gap-2 hover-elevate active-elevate-2 rounded-md px-3 py-2 -ml-3">
-                <img src="/logo.png" alt="System Design Academy" className="h-10" />
+                <img src="/logo.png" alt="System Design Academy" className="h-14" />
               </div>
             </Link>
 

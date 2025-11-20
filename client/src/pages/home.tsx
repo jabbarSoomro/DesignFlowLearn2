@@ -41,6 +41,9 @@ export default function Home() {
     <div className="min-h-screen bg-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
         <div className="text-center mb-16">
+          <div className="flex justify-center mb-6">
+            <img src="/logo.png" alt="System Design Academy" className="h-20" />
+          </div>
           <Badge variant="secondary" className="mb-4">
             Learn System Design Visually
           </Badge>
@@ -49,7 +52,7 @@ export default function Home() {
             <span className="block text-primary mt-2">One Diagram at a Time</span>
           </h1>
           <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
-            Practice system design through interactive visual diagrams. Build solutions with real components, 
+            Practice system design through interactive visual diagrams. Build solutions with real components,
             earn XP, unlock badges, and compete with fellow learners.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
