@@ -94,6 +94,8 @@ export const xpLogs = pgTable("xp_logs", {
 export const insertUserSchema = createInsertSchema(users).omit({
   id: true,
   createdAt: true,
+  passwordHash: true,
+  xp: true,
 }).extend({
   password: z.string().min(6, "Password must be at least 6 characters"),
 });
@@ -154,7 +156,7 @@ export type XPLog = typeof xpLogs.$inferSelect;
 // Extended types with relations
 export type ProblemWithTags = Problem & { tags: Tag[] };
 export type SubmissionWithUser = Submission & { user: { name: string; email: string } };
-export type CommentWithUser = Comment & { 
+export type CommentWithUser = Comment & {
   user: { name: string; email: string };
   replies?: CommentWithUser[];
 };
